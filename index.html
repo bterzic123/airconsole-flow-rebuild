@@ -1,0 +1,1132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Growth Audit — AirConsole</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,600;6..12,700;6..12,800&family=Exo+2:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only dark;
+  /* ---- AirConsole, extracted from their live screens ---- */
+  --ac-bg:#1F1F1F; --ac-card:#2F2F2F; --ac-deep:#111111; --ac-row:#232323;
+  --ac-ink:#FFFFFF; --ac-txt:#C9CBD0; --ac-muted:#8E9197; --ac-line:#3A3A3A;
+  --ac-green:#24ED94; --ac-g1:#07C875; --ac-g2:#08F68F; --ac-cta-ink:#0D2A1B;
+  --ac-price:#1D8A57; --ac-amber:#9A7440; --ac-blue:#5886FF; --ac-pill:#F3F5F9; --ac-splash:#3B3B3B;
+  --ac-warn:#FFB54D;
+  --r-ctl:34px; --r-media:30px;
+  /* ---- the report shell, in AirConsole's own palette ---- */
+  --bg:#1F1F1F; --bg2:#262626; --surf:#2A2A2A;
+  --hair:rgba(255,255,255,.09); --hair2:rgba(255,255,255,.16);
+  --ink:#F3F5F9; --ink2:#BFC2C8; --ink3:#868A91;
+  --accent:#08E083; --accent-lift:#24ED94;
+  --panel:#FFFFFF; --panel-ink:#15181B; --panel-muted:#5F666D; --panel-line:#E9ECEF;
+  --accent-ink:#0B8552;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 20px}}
+
+/* ============ top bar ============ */
+.nav{position:sticky;top:0;z-index:70;background:rgba(31,31,31,.86);backdrop-filter:blur(18px) saturate(160%);
+  border-bottom:1px solid var(--hair)}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;gap:18px}
+@media(max-width:700px){.nav-in{padding:0 20px;gap:12px}}
+.nav-brand{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.nav-brand .mk{width:26px;height:30px;flex:none;display:block}
+.nav-brand .mk img{width:26px;height:30px;display:block;object-fit:contain}
+.nav-brand span{color:var(--ink2);font-weight:500}
+.nav-brand b{color:var(--ink);font-weight:700}
+.nav-links{margin-left:auto;display:flex;gap:2px;align-items:center}
+.nav-links button{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:700;color:var(--ink3);transition:.16s}
+.nav-links button:hover{color:var(--ink)}
+.nav-links button.on{color:var(--ink);background:#333;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+@media(max-width:640px){.nav-brand span{display:none}}
+
+.view{display:none}
+.view.on{display:block}
+
+/* ============ hero ============ */
+.hero{padding:104px 0 0;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-340px;left:50%;transform:translateX(-50%);
+  width:1100px;height:640px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(8,224,131,.18),transparent 72%)}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(40% 50% at 8% 20%,rgba(88,134,255,.16),transparent 70%),
+   radial-gradient(38% 45% at 92% 18%,rgba(173,236,0,.08),transparent 70%)}
+.hero>*{position:relative;z-index:1}
+.eyebrow{font-size:11.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lift);margin-bottom:26px}
+.hero h1{font-family:'Nunito',sans-serif;font-size:76px;line-height:.98;font-weight:900;letter-spacing:-.04em;margin:0 0 24px}
+@media(max-width:820px){.hero h1{font-size:50px}.hero{padding-top:70px}}
+.hero .lede{font-size:20px;line-height:1.5;font-weight:400;color:var(--ink2);max-width:600px;margin:0 auto;letter-spacing:-.012em}
+@media(max-width:820px){.hero .lede{font-size:17px}}
+.hero .meta{margin-top:30px;font-size:12.5px;color:var(--ink3);letter-spacing:.02em}
+.hero .meta b{color:var(--ink2);font-weight:700}
+
+.stats{display:flex;justify-content:center;gap:0;margin:70px auto 0;max-width:760px;
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stat{flex:1;padding:26px 14px;text-align:center;border-left:1px solid var(--hair)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-family:'Nunito',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.stat span{display:block;font-size:11.5px;color:var(--ink3);margin-top:5px;line-height:1.35}
+@media(max-width:700px){.stat b{font-size:19px}.stat{padding:18px 8px}}
+
+.fb{max-width:760px;margin:0 auto;padding:30px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:26px;text-align:left}
+@media(max-width:700px){.fb{grid-template-columns:1fr;gap:20px;padding-top:24px}}
+.fb-k{grid-column:1/-1;font-size:10.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink3);text-align:center;margin-bottom:-6px}
+.fb-i{display:flex;gap:12px;align-items:flex-start}
+.fb-i .tick{width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:rgba(36,237,148,.16);
+  display:grid;place-items:center}
+.fb-i .tick svg{width:10px;height:10px;stroke:var(--accent-lift);stroke-width:3;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.fb-i p{font-size:14px;line-height:1.55;color:var(--ink2);margin:0}
+.fb-i p b{color:var(--ink);font-weight:800}
+
+.sec{padding:96px 0}
+.sec-k{font-size:11.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:18px}
+.sec h2{font-family:'Nunito',sans-serif;font-size:38px;line-height:1.14;font-weight:800;letter-spacing:-.03em;margin:0 0 20px;max-width:680px}
+@media(max-width:820px){.sec h2{font-size:29px}.sec{padding:64px 0}}
+.sec p.body{font-size:17px;line-height:1.66;color:var(--ink2);max-width:640px;margin:0 0 18px;letter-spacing:-.008em}
+.sec p.body b{color:var(--ink);font-weight:700}
+.rule{height:1px;background:var(--hair);margin:0}
+
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;max-width:820px}
+@media(max-width:760px){.notes{grid-template-columns:1fr}}
+.note{background:var(--surf);border:1px solid var(--hair);border-radius:16px;padding:24px 26px}
+.note h4{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;letter-spacing:-.01em;margin:0 0 8px}
+.note p{font-size:14px;line-height:1.6;color:var(--ink2);margin:0}
+
+.ideas{display:flex;flex-direction:column;gap:0;margin-top:14px;border-top:1px solid var(--hair)}
+.idea{display:grid;grid-template-columns:52px 1fr 180px;gap:26px;align-items:start;
+  padding:30px 4px;border-bottom:1px solid var(--hair);text-align:left;width:100%;transition:.18s}
+.idea:hover{background:rgba(255,255,255,.03)}
+@media(max-width:780px){.idea{grid-template-columns:38px 1fr;gap:16px}}
+.idea .no{font-size:13px;font-weight:800;color:var(--ink3);padding-top:4px;letter-spacing:.02em}
+.idea h3{font-family:'Nunito',sans-serif;font-size:21px;line-height:1.25;font-weight:800;letter-spacing:-.02em;margin:0 0 7px}
+@media(max-width:820px){.idea h3{font-size:18px}}
+.idea p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0;max-width:540px}
+.idea .out{text-align:right;padding-top:3px}
+@media(max-width:780px){.idea .out{grid-column:2;text-align:left;padding-top:12px}}
+.idea .out b{display:block;font-family:'Nunito',sans-serif;font-size:19px;font-weight:800;letter-spacing:-.02em;color:var(--accent-lift);white-space:nowrap}
+.idea .out span{display:block;font-size:10.5px;color:var(--ink3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase;font-weight:700}
+.idea .seeit{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:12.5px;
+  font-weight:700;color:var(--accent-lift)}
+.idea .seeit svg{width:12px;height:12px}
+
+.band{background:var(--surf);border:1px solid var(--hair);border-radius:28px;padding:40px 44px;margin-top:44px;
+  display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+@media(max-width:700px){.band{padding:28px 24px;gap:22px}}
+.band .lab{font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.band .txt{flex:1;min-width:240px}
+.band .txt p{font-size:15.5px;line-height:1.6;color:var(--ink2);margin:0}
+.band .nums{display:flex;gap:34px}
+.band .nums div b{display:block;font-family:'Nunito',sans-serif;font-size:30px;font-weight:900;letter-spacing:-.03em;color:var(--accent-lift)}
+.band .nums div span{display:block;font-size:11px;color:var(--ink3);margin-top:2px;letter-spacing:.04em;
+  text-transform:uppercase;font-weight:700}
+
+.cta-row{display:flex;justify-content:center;margin-top:52px;align-items:center;gap:22px;flex-wrap:wrap}
+.bigbtn{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(90deg,var(--ac-g1),var(--ac-g2));color:var(--ac-cta-ink);
+  font-family:'Nunito',sans-serif;font-size:15.5px;font-weight:800;letter-spacing:-.01em;padding:15px 26px;border-radius:30px;transition:.16s}
+.bigbtn:hover{filter:brightness(1.08)}
+.bigbtn svg{width:15px;height:15px}
+
+.foot{border-top:1px solid var(--hair);padding:36px 0 70px;font-size:12.5px;line-height:1.6;color:var(--ink3)}
+
+/* ============ prototype stage ============ */
+.stage{display:grid;grid-template-columns:minmax(440px,1fr) minmax(400px,470px);gap:0;
+  align-items:start;min-height:calc(100vh - 58px)}
+@media(max-width:1080px){.stage{grid-template-columns:1fr}}
+.phonecol{padding:34px 24px 46px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.panelcol{border-left:1px solid var(--hair);background:var(--panel);color:var(--panel-ink);
+  min-height:calc(100vh - 58px);position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto}
+@media(max-width:1080px){.panelcol{position:static;max-height:none;border-left:none;border-top:1px solid var(--hair)}}
+
+.phone{position:relative;width:390px;height:844px;flex:none;background:#000;border:11px solid #000;
+  border-radius:46px;box-shadow:0 0 0 1.5px #3C3F44,0 34px 70px -22px rgba(0,0,0,.7)}
+.phone-in{position:absolute;inset:0;border-radius:36px;overflow:hidden;background:var(--ac-bg)}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#000;
+  border-radius:16px;z-index:60;pointer-events:none}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;z-index:55;pointer-events:none;display:flex;
+  align-items:center;justify-content:space-between;padding:14px 28px 0 34px;font:700 15px/1 'Nunito Sans',sans-serif;color:#fff;transition:color .3s}
+.sbar.dk{color:#111}
+.sbar .glyphs{display:flex;gap:5px;align-items:center}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;
+  border-radius:3px;background:rgba(255,255,255,.9);z-index:56;pointer-events:none;transition:background .3s}
+.homebar.dk{background:#111}
+.screenwrap{position:absolute;inset:0;overflow:hidden;background:var(--ac-bg)}
+
+/* ============ phone screens — AirConsole's system, all prefixed scr-/ac- ============ */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--ac-bg);color:var(--ac-ink);
+  font-family:'Nunito Sans',-apple-system,sans-serif;
+  transform:translateX(100%);transition:transform .36s cubic-bezier(.32,.72,0,1);z-index:10;will-change:transform}
+.scr.is-active{transform:translateX(0);z-index:20}
+.scr.is-past{transform:translateX(-24%)}
+.scr.sheet{transform:translateY(100%)}
+.scr.sheet.is-active{transform:translateY(0);z-index:30}
+.scr.nofx{transition:none}
+.scr-top{flex:none;padding:56px 18px 0;position:relative;z-index:2}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 18px;scrollbar-width:none;position:relative;z-index:2}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-body.dock{display:flex;flex-direction:column}
+.scr-foot{flex:none;padding:10px 18px 30px;position:relative;z-index:2;text-align:center}
+
+.ac-back{width:40px;height:40px;display:grid;place-items:center;color:var(--ac-ink);margin-left:-8px}
+.ac-back svg{width:26px;height:26px}
+.ac-h{font-family:'Nunito',sans-serif;font-size:25px;line-height:1.16;font-weight:900;letter-spacing:-.005em;text-align:center;color:var(--ac-ink);margin:20px 4px 0}
+.ac-sub{font-size:15px;line-height:1.38;color:var(--ac-txt);text-align:center;margin:12px 6px 0;font-weight:400}
+
+.ac-btn{display:block;width:70%;margin:0 auto;height:54px;border-radius:27px;
+  background:linear-gradient(90deg,var(--ac-g1),var(--ac-g2));color:var(--ac-cta-ink);
+  font:800 16.5px/1 'Nunito',sans-serif;letter-spacing:.005em;transition:filter .15s}
+.ac-btn.wide{width:100%}
+.ac-btn:hover{filter:brightness(1.06)}
+.ac-white{display:flex;align-items:center;justify-content:center;gap:16px;width:70%;margin:16px auto 0;height:54px;border-radius:27px;
+  background:var(--ac-pill);color:#111;font:800 16.5px/1 'Nunito',sans-serif}
+.ac-white svg{width:21px;height:21px}
+.ac-helper{font-size:13.5px;color:var(--ac-txt);margin-top:12px;text-align:center}
+.ac-ghost{display:block;margin:12px auto 0;font:700 14.5px/1.2 'Nunito',sans-serif;color:var(--ac-txt);text-decoration:underline;text-underline-offset:3px}
+.ac-out{display:block;width:100%;height:54px;border-radius:27px;border:2.5px solid var(--ac-green);color:var(--ac-ink);
+  font:800 16.5px/1 'Nunito',sans-serif;transition:.15s;background:transparent}
+.ac-out.on{background:rgba(36,237,148,.14)}
+.ac-outs{display:flex;flex-direction:column;gap:12px;padding:0 34px}
+
+/* welcome */
+.ac-head{display:flex;align-items:center;justify-content:space-between;height:44px;margin-top:-4px}
+.ac-word{display:flex;align-items:center;gap:9px;font:500 26px/1 'Exo 2',sans-serif;color:var(--ac-ink);letter-spacing:.01em}
+.ac-word img{width:24px;height:28px;object-fit:contain}
+.ac-burger{width:26px;height:20px;display:flex;flex-direction:column;justify-content:space-between}
+.ac-burger i{display:block;height:3.5px;border-radius:2px;background:var(--ac-ink)}
+.ac-car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:22px -18px 0;padding:0 0 20px}
+.ac-car::-webkit-scrollbar{display:none}
+.ac-slide{flex:none;width:100%;padding:0 16px;scroll-snap-align:center}
+.ac-card{border-radius:var(--r-media);overflow:hidden;background:var(--ac-card);box-shadow:0 14px 30px -14px rgba(0,0,0,.7);height:352px;display:flex;flex-direction:column}
+.ac-card img{display:block;width:100%;object-fit:cover;flex:1;min-height:0}
+.ac-card .cap{flex:none;padding:12px 18px 16px;font:800 15px/1.3 'Nunito',sans-serif;color:var(--ac-ink)}
+.ac-card.c1 img{flex:none;height:208px;object-fit:contain;padding:14px 16px 0}
+.ac-card.c1 .t{font:900 25px/1.15 'Nunito',sans-serif;text-align:center;margin:10px 14px 0}
+.ac-card.c1 .s{font-size:14.5px;line-height:1.35;color:var(--ac-txt);text-align:center;margin:8px 18px 0}
+.ac-dots{display:flex;gap:16px;justify-content:center}
+.ac-dots i{width:10px;height:10px;border-radius:50%;background:#fff;transition:.25s}
+.ac-dots i.on{background:var(--ac-blue)}
+
+/* screen choice + players */
+.ac-ill{background:var(--ac-card);border-radius:14px;margin:8px 2px 0;height:110px;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 24px -14px rgba(0,0,0,.7)}
+.ac-ill img{display:block;width:100%;height:100%;object-fit:cover}
+.ac-pads{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;padding:0 10px}
+.ac-pad{width:52px;height:30px;border-radius:9px;background:var(--ac-blue);position:relative;transition:transform .2s}
+.ac-pad::before{content:'+';position:absolute;left:8px;top:2px;font:900 22px/1 'Nunito',sans-serif;color:var(--ac-card)}
+.ac-pad::after{content:'';position:absolute;right:9px;top:8px;width:6px;height:6px;border-radius:50%;background:var(--ac-card);box-shadow:-8px 8px 0 var(--ac-card)}
+.ac-pad.more{background:none;width:auto;color:var(--ac-blue);font:900 22px/1 'Nunito',sans-serif}
+.ac-pad.more::before,.ac-pad.more::after{display:none}
+.ac-ready{font-size:15px;color:var(--ac-txt);text-align:center;margin-top:16px}
+
+/* connect */
+.ac-pcill{margin:0 -18px;height:150px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.ac-pcill img{display:block;height:136px}
+.ac-pcill.alt img{height:118px;border-radius:14px}
+.ac-pcill:not(.alt){background:linear-gradient(180deg,transparent 127px,#3D3D3D 127px,#4F4F4F 129px,#4F4F4F 145px,#3B3B3B 145px)}
+.phone-in.light .ac-pcill:not(.alt){background:linear-gradient(180deg,transparent 127px,#C2C2C2 127px,#B0B0B0 129px,#B0B0B0 145px,#C4C4C4 145px)}
+[data-id=connect] .scr-top{z-index:4}
+.ac-steps{display:flex;flex-direction:column;gap:22px;margin-top:22px;padding:0 4px}
+.ac-step{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:12px}
+.ac-step b{font:600 38px/1 'Nunito Sans',sans-serif;color:var(--ac-ink);text-align:center}
+.ac-step p{font-size:15px;line-height:1.35;color:var(--ac-txt);font-weight:300}
+.ac-chromechip{display:inline-flex;align-items:center;gap:10px;margin-top:8px;background:var(--ac-card);border-radius:10px;padding:6px 12px;color:var(--ac-txt);font-size:14px}
+.ac-chromechip img{width:20px;height:20px}
+
+/* payoff */
+.ac-po-top{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px}
+.ac-tvmk{width:64px;height:40px;border-radius:7px;background:var(--ac-blue);position:relative;flex:none}
+.ac-tvmk::after{content:'';position:absolute;left:22px;right:22px;bottom:-6px;height:3px;border-radius:2px;background:var(--ac-blue)}
+.ac-eq{font:700 22px/1 'Nunito',sans-serif;color:var(--ac-txt)}
+.ac-cmp{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.ac-tier{border-radius:16px;padding:14px 16px;background:var(--ac-deep)}
+.ac-tier.hero{background:var(--ac-bg);border:2.5px solid var(--ac-green)}
+.ac-tier .k{display:flex;justify-content:space-between;align-items:baseline;font:900 16px/1.2 'Nunito',sans-serif;color:var(--ac-ink)}
+.ac-tier .k span{font:600 13px/1 'Nunito Sans',sans-serif;color:var(--ac-muted)}
+.ac-tier ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:7px}
+.ac-tier li{display:flex;gap:10px;align-items:center;font-size:14.5px;line-height:1.3;color:var(--ac-txt)}
+.ac-tier li svg{width:18px;height:18px;flex:none}
+.ac-tier li.warn{color:var(--ac-warn);font-weight:700}
+.ac-proof{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;font-size:13.5px;color:var(--ac-txt)}
+.ac-proof .st{color:#FFC93C;letter-spacing:1px;font-size:14px}
+.ac-proof b{color:var(--ac-ink);font-weight:800}
+
+/* paywall */
+.scr--pay .scr-top{padding-top:52px}
+.ac-x{position:absolute;right:16px;top:58px;width:44px;height:44px;display:grid;place-items:center;color:var(--ac-ink);z-index:5}
+.ac-x svg{width:30px;height:30px}
+.ac-payh{font-family:'Nunito',sans-serif;font-size:29px;line-height:1.12;font-weight:900;text-align:center;color:var(--ac-ink);margin:52px 22px 0}
+.ac-paysub{font:800 15.5px/1.3 'Nunito',sans-serif;color:var(--ac-green);text-align:center;margin-top:8px}
+.ac-feats{display:flex;flex-direction:column;gap:9px;margin:18px auto 0;width:max-content;max-width:100%}
+.ac-f{display:flex;align-items:center;gap:18px;font-size:16.5px;color:var(--ac-ink);font-weight:400}
+.ac-f svg{width:26px;height:22px;flex:none}
+.ac-plans{margin-top:18px}
+.ac-pgroup{border-radius:14px;overflow:hidden;background:var(--ac-row);box-shadow:0 10px 24px -14px rgba(0,0,0,.7)}
+.ac-phead{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;font:700 15.5px/1 'Nunito Sans',sans-serif;color:var(--ac-muted)}
+.ac-phead span{color:var(--ac-amber);font-weight:600}
+.ac-plan{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;background:var(--ac-deep);
+  border:3px solid transparent;border-radius:14px;padding:12px 16px;transition:.15s}
+.ac-plan.mon{background:var(--ac-bg);margin-top:8px}
+.ac-plan.on{border-color:#fff}
+.ac-plan .n{display:block;font-size:17px;color:var(--ac-txt);font-weight:400}
+.ac-plan .d{display:block;font-size:13.5px;color:var(--ac-muted);margin-top:2px}
+.ac-plan .pr{text-align:right}
+.ac-plan .pr b{display:block;font:900 26px/1 'Nunito',sans-serif;color:var(--ac-ink)}
+.ac-plan.yr .pr b{color:var(--ac-price)}
+.ac-plan.yr.on .pr b{color:var(--ac-green)}
+.ac-plan.on .n{color:var(--ac-ink)}
+.ac-plan .pr span{display:block;font-size:13px;color:var(--ac-muted);margin-top:3px}
+.ac-legal{font-size:11.5px;line-height:1.4;color:var(--ac-txt);text-align:center;margin-top:10px}
+.ac-legal a{text-decoration:underline}
+.ac-legal a.r{font-weight:800}
+
+/* offer */
+.scr--offer .ac-x{top:58px}
+.ac-oh{font-family:'Nunito',sans-serif;font-size:29px;line-height:1.12;font-weight:900;text-align:center;color:var(--ac-ink);margin:108px 18px 0}
+.ac-osub{font-size:15px;color:var(--ac-txt);text-align:center;margin-top:10px}
+.ac-ocard{margin-top:22px;border-radius:18px;background:var(--ac-deep);border:3px solid #fff;padding:20px 18px 18px;text-align:center}
+.ac-ocard .tag{display:inline-block;font:800 12px/1 'Nunito',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ac-cta-ink);
+  background:linear-gradient(90deg,var(--ac-g1),var(--ac-g2));padding:6px 10px;border-radius:10px}
+.ac-ocard .nm{font-size:17px;color:var(--ac-ink);margin-top:14px}
+.ac-ocard .big{font:900 54px/1 'Nunito',sans-serif;color:var(--ac-green);margin-top:8px}
+.ac-ocard .once{font-size:14px;color:var(--ac-muted);margin-top:4px}
+.ac-orows{display:flex;flex-direction:column;gap:10px;margin:18px auto 0;text-align:left;width:max-content;max-width:100%}
+.ac-orows div{display:flex;gap:12px;align-items:center;font-size:15px;color:var(--ac-txt)}
+.ac-orows svg{width:22px;height:18px;flex:none}
+
+/* code + tracking dialog */
+.ac-code{display:flex;gap:10px;justify-content:center;margin-top:30px}
+.ac-code i{width:52px;height:64px;border-radius:12px;background:var(--ac-card);display:grid;place-items:center;font:800 28px/1 'Nunito',sans-serif;font-style:normal;color:var(--ac-ink)}
+.ac-code i.cur{box-shadow:inset 0 0 0 2.5px var(--ac-green)}
+.ac-att{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);transition:opacity .25s}
+.ac-att.gone{opacity:0;pointer-events:none}
+.ac-attbox{width:310px;border-radius:30px;background:rgba(36,36,38,.97);padding:24px 18px 16px;box-shadow:0 20px 50px rgba(0,0,0,.5);font-family:-apple-system,'SF Pro Text','Nunito Sans',sans-serif}
+.ac-attico{width:64px;height:64px;border-radius:15px;background:linear-gradient(180deg,#FFB547,#FF8A1F);position:relative;margin-left:12px}
+.ac-attico::after{content:'✋';position:absolute;right:-8px;bottom:-8px;width:30px;height:30px;border-radius:9px;background:#1E8BFF;display:grid;place-items:center;font-size:15px;line-height:30px;text-align:center}
+.ac-attbox h4{font-size:16.5px;line-height:1.3;font-weight:700;color:#fff;margin:16px 12px 0}
+.ac-attbox p{font-size:13.5px;line-height:1.4;color:#A9A9AE;margin:8px 12px 0}
+.ac-attbox button{display:block;width:100%;height:46px;border-radius:23px;background:#3A3A3C;color:#fff;font-size:16px;font-weight:600;margin-top:10px}
+.ac-attbox button:first-of-type{margin-top:18px}
+
+/* light mode — an approximation: AirConsole ships dark only */
+.phone-in.light{--ac-bg:#F4F5F7;--ac-card:#FFFFFF;--ac-deep:#E8EAED;--ac-row:#FFFFFF;--ac-ink:#1A1B1E;--ac-txt:#4A4E55;--ac-muted:#7C8087;
+  --ac-price:#2A9E66;--ac-green:#07B86B;--ac-amber:#9A6A2C;--ac-warn:#B86A00;background:var(--ac-bg)}
+.phone-in.light .screenwrap{background:var(--ac-bg)}
+.phone-in.light .ac-white{background:#1A1B1E;color:#fff}
+.phone-in.light .ac-dots i{background:#C9CCD2}
+.phone-in.light .ac-dots i.on{background:var(--ac-blue)}
+.phone-in.light .ac-plan.on,.phone-in.light .ac-ocard{border-color:#1A1B1E}
+.phone-in.light .ac-plan.mon,.phone-in.light .ac-tier.hero{background:#fff}
+.phone-in.light .ac-pcill img{filter:invert(1) hue-rotate(180deg) brightness(1.05)}
+.phone-in.light .ac-card.c1{background:#2F2F2F;--ac-ink:#fff;--ac-txt:#C9CBD0;color:#fff}
+.phone-in.light .ac-ill{background:#2F2F2F}
+.phone-in.light .ac-pad::before{color:#2F2F2F}
+.phone-in.light .ac-pad::after{background:#2F2F2F;box-shadow:-8px 8px 0 #2F2F2F}
+.phone-in.light .ac-proof .st{color:#E0A400}
+
+/* prototype toolbar, walkthrough, QR */
+.tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
+.seg{display:inline-flex;align-items:center;background:#2A2A2A;border:1px solid #3A3A3A;border-radius:20px;padding:3px;gap:2px}
+.seg button{padding:6px 11px;border-radius:16px;font:700 12px/1 'Nunito Sans',sans-serif;color:var(--ink2);transition:.14s}
+.seg button.on{background:var(--ink);color:#1F1F1F}
+.demo-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:20px;background:linear-gradient(90deg,var(--ac-g1),var(--ac-g2));color:var(--ac-cta-ink);
+  font:800 12px/1 'Nunito Sans',sans-serif}
+.demo-cap{width:390px;max-width:calc(100vw - 24px);background:#2A2A2A;border:1px solid var(--hair);border-radius:16px;padding:14px 14px 12px;
+  display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.demo-cap .bar{position:absolute;left:0;top:0;right:0;height:3px;background:#3A3A3A}
+.demo-cap .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
+.demo-cap p{flex:1;font-size:13.5px;line-height:1.45;color:var(--ink);margin:0;font-weight:600}
+.demo-cap button{font:700 12px/1 'Nunito Sans',sans-serif;color:var(--ink2);padding:7px 10px;border-radius:12px;border:1px solid #444;flex:none}
+.finger{position:absolute;z-index:90;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.28);
+  border:2px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.4);pointer-events:none;opacity:0;left:50%;top:60%;
+  transition:left .32s cubic-bezier(.4,0,.2,1),top .32s cubic-bezier(.4,0,.2,1),opacity .2s,transform .15s}
+.finger.show{opacity:1}
+.finger.press{transform:scale(.78);background:rgba(255,255,255,.45)}
+.qr{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:10px 16px 10px 10px;text-align:left}
+.qr img{width:135px;height:135px;display:block;image-rendering:pixelated;border-radius:6px}
+.qr span{font-size:12.5px;line-height:1.45;color:#4A4E55}
+.qr b{display:block;color:#15181B;font-size:13.5px}
+@media(max-width:1080px){.qr{display:none}}
+
+#view-proto .tools{order:0} #view-proto .demo-cap{order:1} #view-proto .phone{order:2} #view-proto .chips{order:3}
+#view-proto .chiphint{order:4} #view-proto .qr{order:5}
+.cta-row .qr{order:2}
+/* on a phone: the prototype is the screen */
+@media(max-width:500px){
+  #view-proto .phonecol{padding:0 0 28px;gap:14px}
+  #view-proto .phone{width:100vw;height:calc(100svh - 58px);min-height:640px;border:0;border-radius:0;box-shadow:none;order:1}
+  #view-proto .phone-in{border-radius:0}
+  #view-proto .island,#view-proto .sbar,#view-proto .homebar{display:none}
+  #view-proto .scr-top{padding-top:16px}
+  #view-proto .scr-foot{padding-bottom:18px}
+  #view-proto .ac-x{top:12px}
+  #view-proto .ac-payh{margin-top:40px}
+  #view-proto .ac-oh{margin-top:70px}
+  #view-proto .tools{order:3;padding:0 12px}
+  #view-proto .demo-cap{position:fixed;left:12px;right:12px;bottom:12px;width:auto;max-width:none;z-index:95}
+  #view-proto .chips{order:4;padding:0 12px}
+  #view-proto .chiphint{order:5}
+}
+
+.herobtns{display:flex;justify-content:center;margin-top:30px}
+.ghostbtn{display:inline-flex;align-items:center;gap:10px;background:#2A2A2A;border:1px solid var(--hair2);color:var(--ink);font-size:14px;
+  font-weight:700;padding:9px 20px 9px 9px;border-radius:30px;transition:.16s}
+.ghostbtn:hover{background:#333}
+.ghostbtn .pl{width:30px;height:30px;border-radius:50%;background:linear-gradient(90deg,var(--ac-g1),var(--ac-g2));display:grid;place-items:center}
+.ghostbtn .pl svg{width:12px;height:12px;fill:var(--ac-cta-ink);margin-left:2px}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:470px;margin:0 auto}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid #3A3A3A;background:#2A2A2A;
+  font:700 12px/1 'Nunito Sans',sans-serif;color:var(--ink2);transition:.14s}
+.chip:hover{color:var(--ink);border-color:#555}
+.chip.offer{border-style:dashed;border-color:var(--accent);color:var(--accent-lift)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--ac-cta-ink);border-style:solid}
+.chiphint{text-align:center;font-size:11px;color:var(--ink3);margin:0;max-width:430px}
+
+/* ============ the short panel ============ */
+.pn{padding:30px 30px 60px;font-family:'Nunito Sans',sans-serif}
+.pn-n{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.pn-n.ctx{color:var(--panel-muted)}
+.pn-t{font-family:'Nunito',sans-serif;font-size:23px;line-height:1.18;font-weight:800;letter-spacing:-.02em;margin:8px 0 0;color:var(--panel-ink)}
+.pn-hyp{font-size:15px;line-height:1.62;color:#2E353B;margin:16px 0 0}
+.pn-hyp b{font-weight:800;color:var(--panel-ink)}
+.pn-out{margin-top:22px;border-top:1px solid var(--panel-line);padding-top:18px}
+.pn-out .lab{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--panel-muted)}
+.pn-out .v{font-family:'Nunito',sans-serif;font-size:31px;font-weight:900;letter-spacing:-.03em;color:var(--accent-ink);margin-top:7px;line-height:1}
+.pn-kept{margin-top:22px;font-size:12.5px;line-height:1.55;color:var(--panel-muted)}
+.pn-kept b{color:#2E353B;font-weight:800}
+.pn-foot{font-size:11.5px;line-height:1.55;color:var(--panel-muted);border-top:1px solid var(--panel-line);
+  padding-top:14px;margin-top:26px}
+.pn-sep{height:1px;background:var(--panel-line);margin:26px 0}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">
+      <span class="mk"><img src="img/logo-sm.png" alt="AirConsole"></span>
+      <b>Growth Audit</b><span>· AirConsole</span>
+    </div>
+    <div class="nav-links">
+      <button class="on" data-view="over">Overview</button>
+      <button data-view="proto">Prototype</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= OVERVIEW ======================= -->
+<div class="view on" id="view-over">
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Growth Audit · October 2026</div>
+    <h1>AirConsole</h1>
+    <p class="lede">Five ideas to unlock more revenue from the traffic you already have.</p>
+    <div class="meta">Prepared by <b>Adapty</b> · based on your live iOS flow and your App Store listing</div>
+    <div class="herobtns"><button class="ghostbtn" data-demo><span class="pl"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg></span>Watch the 30-second walkthrough</button></div>
+    <div class="stats">
+      <div class="stat"><b>30,000+</b><span>apps run subscriptions<br>on Adapty</span></div>
+      <div class="stat"><b>5</b><span>ideas, each rebuilt<br>as a working screen</span></div>
+      <div class="stat"><b>0</b><span>design changes<br>to your art direction</span></div>
+    </div>
+
+    <div class="fb">
+      <div class="fb-k">Built in Adapty Flow Builder</div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Millions of dollars</b> in subscription revenue pass through Flow Builder every month.</p>
+      </div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Nearly 500 apps</b> actively build their paywalls and onboarding in it — plenty of them past $100K MRR.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">What this is</div>
+    <h2>We opened AirConsole the way a new player does, then rebuilt the parts we think are leaving money on the table.</h2>
+    <p class="body">Adapty powers subscriptions for <b>30,000+ apps</b>, so we get to see what actually moves conversion and ARPU across the market rather than inside one app. We pointed that at AirConsole: installed it, went from the launch screen to the Hero paywall, read your App Store listing and your pricing page, and looked for gaps between what you already have and what you currently show people.</p>
+    <p class="body">What follows is five ideas — not fifteen. Each one is a hypothesis you can A/B test, and each one is built into a clickable prototype so you can see it rather than imagine it. <b>The prototype uses your design, not ours.</b></p>
+
+    <div class="notes">
+      <div class="note">
+        <h4>We did not redesign your app</h4>
+        <p>Every screen in the prototype is yours — your dark surfaces, your green pill buttons, your PC / Car / TV choice, your connect steps, your Hero plan cards. Only the order changed, plus a few things you already own but do not show at the right moment. This is not a design pitch.</p>
+      </div>
+      <div class="note">
+        <h4>You may have tested some of this</h4>
+        <p>We are working from the outside, so we cannot see your experiment history. If one of these is something you have already run, tell us — we will go deeper on the rest rather than repeat it.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">The five ideas</div>
+    <h2>Ranked by what we would test first.</h2>
+    <p class="body">Each one links straight to the screen in the prototype.</p>
+
+    <div class="ideas">
+      <button class="idea" data-jump="payoff">
+        <span class="no">01</span>
+        <span>
+          <h3>Show their game night before the price</h3>
+          <p>You ask which screen they will play on, then show a black screen that says “You are missing out!” and the paywall. Ask one more thing — how many are playing — and show what that means: the free Starter Pack stops at 2 players, Hero takes the whole group.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–20%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="paywall">
+        <span class="no">02</span>
+        <span>
+          <h3>Name their group on the paywall</h3>
+          <p>“Unlock AirConsole Hero” reads the same to a solo player and to a family of five. Put their group and their screen in the headline, lead with Unlimited Players when they are more than two, and add your 4.7 from 5.1K App Store ratings, which appears nowhere in the flow today.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +15–20%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="offer">
+        <span class="no">03</span>
+        <span>
+          <h3>Offer lifetime when they close</h3>
+          <p>“AirConsole Hero for lifetime” is already on the App Store at $29.99, but no one sees it in this flow. Show it once when someone closes the paywall: pay once, no renewals — for a parent who does not want a monthly bill, that is a different question.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>ARPU +10–15%</b><span>second chance</span></span>
+      </button>
+
+      <button class="idea" data-jump="code">
+        <span class="no">04</span>
+        <span>
+          <h3>Ask for tracking after the paywall</h3>
+          <p>The “Allow AirConsole to track your activity” prompt lands on top of your welcome carousel, before a single game has been seen. Ask once they are connecting their phones, when the app has already earned some trust.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="paywall">
+        <span class="no">05</span>
+        <span>
+          <h3>Start on the annual plan</h3>
+          <p>Your paywall shouts 70% OFF over the annual plan at $17.99 a year, then preselects the $4.99 monthly plan with a white border. Let the selection match the headline.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>ARPU +3–8%</b><span>annual mix</span></span>
+      </button>
+    </div>
+
+    <div class="band">
+      <div class="txt">
+        <div class="lab">Potential outcome</div>
+        <p>Run together, these five move the same funnel at three points — what someone sees before the price, what the paywall says to their group, and what happens when they say no.</p>
+      </div>
+      <div class="nums">
+        <div><b>+25%</b><span>CR to purchase</span></div>
+        <div><b>+20%</b><span>ARPU</span></div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <div class="qr"><img src="img/qr.svg" alt="QR code for the prototype"><span><b>Or open it on your phone</b>Scan to try the flow in your hand.</span></div>
+      <button class="bigbtn" data-view="proto">Open the prototype
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <div class="wrap">
+    Impact ranges are Adapty's expected effect from teardowns and A/B tests across subscription apps — not measured lift for AirConsole. Every price, rating and feature line here and in the prototype comes from AirConsole's own App Store listing, website, pricing page and in-app screens.
+  </div>
+</div>
+</div><!-- /view-over -->
+
+<!-- ======================= PROTOTYPE ======================= -->
+<div class="view" id="view-proto">
+<div class="stage">
+  <div class="phonecol">
+    <div class="tools" id="tools">
+      <div class="seg" id="segLang"><button data-lang="en" class="on">EN</button><button data-lang="de">DE</button><button data-lang="fr">FR</button></div>
+      <div class="seg" id="segTheme"><button data-theme="light">Light</button><button data-theme="dark" class="on">Dark</button></div>
+      <button class="demo-btn" id="demoBtn"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>30-sec walkthrough</button>
+    </div>
+    <div class="phone">
+      <div class="phone-in" id="phoneIn">
+        <div class="island"></div>
+        <div class="sbar" id="sbar">
+          <span>9:41</span>
+          <span class="glyphs">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.5 5.6 7.9a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-5.6a6.4 6.4 0 0 0-4.5 1.9L1.7 4.9a9 9 0 0 1 12.6 0l-1.8 1.9A6.4 6.4 0 0 0 8 4.9Z"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16.5" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.3 4.1v3.8a2 2 0 0 0 0-3.8Z" fill="currentColor" fill-opacity=".5"/></svg>
+          </span>
+        </div>
+        <div class="homebar" id="homebar"></div>
+        <div class="finger" id="finger"></div>
+        <div class="screenwrap">
+
+<!-- WELCOME -->
+<section class="scr" data-id="welcome">
+  <div class="scr-top">
+    <div class="ac-head"><span class="ac-word"><img src="img/logo-sm.png" alt="">AirConsole</span><span class="ac-burger"><i></i><i></i><i></i></span></div>
+  </div>
+  <div class="scr-body dock">
+    <div class="ac-car" id="car">
+      <div class="ac-slide"><div class="ac-card c1"><img src="img/slide-devices.png" alt=""><div class="t" data-t="w.t1"></div><div class="s" data-t="w.s1"></div></div></div>
+      <div class="ac-slide"><div class="ac-card"><img src="img/slide-hero.png" alt="AirConsole Hero"><div class="cap" data-t="w.c2"></div></div></div>
+      <div class="ac-slide"><div class="ac-card"><img src="img/slide-friends.png" alt="Friends playing AirConsole"><div class="cap" data-t="w.c3"></div></div></div>
+    </div>
+    <div class="ac-dots" id="dots"><i class="on"></i><i></i><i></i></div>
+    <div style="margin-top:auto"></div>
+  </div>
+  <div class="scr-foot">
+    <button class="ac-btn" id="guestBtn" data-go="screen" data-t="w.guest"></button>
+    <button class="ac-white" data-go="screen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 4.9c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.1.1 2.3-.6 3-1.5Z"/></svg><span data-t="w.apple"></span></button>
+    <p class="ac-helper" data-t="w.help"></p>
+  </div>
+</section>
+
+<!-- SCREEN CHOICE -->
+<section class="scr" data-id="screen">
+  <div class="scr-top">
+    <button class="ac-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg></button>
+  </div>
+  <div class="scr-body">
+    <div class="ac-ill"><img src="img/screens.png" alt=""></div>
+    <h2 class="ac-h" data-th="sc.h"></h2>
+    <p class="ac-sub" data-th="sc.sub"></p>
+    <p class="ac-ready" data-t="sc.ready"></p>
+  </div>
+  <div class="scr-foot">
+    <div class="ac-outs" id="screenOpts">
+      <button class="ac-out" data-v="pc">PC</button>
+      <button class="ac-out" data-v="car" data-t="s.car"></button>
+      <button class="ac-out" data-v="tv">TV</button>
+    </div>
+  </div>
+</section>
+
+<!-- PLAYERS -->
+<section class="scr" data-id="players">
+  <div class="scr-top">
+    <button class="ac-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg></button>
+  </div>
+  <div class="scr-body">
+    <div class="ac-ill"><div class="ac-pads" id="padsQ"></div></div>
+    <h2 class="ac-h" data-th="pl.h"></h2>
+    <p class="ac-sub" data-t="pl.sub"></p>
+  </div>
+  <div class="scr-foot">
+    <div class="ac-outs" id="playerOpts"></div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section class="scr" data-id="connect">
+  <div class="scr-top" style="padding-top:50px">
+    <button class="ac-back" data-back style="position:absolute;left:26px;top:52px;z-index:3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg></button>
+  </div>
+  <div class="scr-body">
+    <div class="ac-pcill" id="connIll"><img id="connImg" src="img/pc.png" alt=""></div>
+    <h2 class="ac-h" style="margin-top:26px" id="connH"></h2>
+    <div class="ac-steps" id="connSteps"></div>
+  </div>
+  <div class="scr-foot"><button class="ac-btn" data-go="payoff" data-t="cn.cta" style="width:72%"></button></div>
+</section>
+
+<!-- PAYOFF (replaces "You are missing out!") -->
+<section class="scr" data-id="payoff">
+  <div class="scr-top">
+    <button class="ac-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg></button>
+  </div>
+  <div class="scr-body">
+    <div class="ac-po-top"><span class="ac-tvmk"></span><span class="ac-eq">+</span><div class="ac-pads" id="padsP" style="padding:0"></div></div>
+    <h2 class="ac-h" id="poH"></h2>
+    <div class="ac-cmp">
+      <div class="ac-tier"><div class="k"><span data-t="po.free" style="font:900 16px/1.2 Nunito,sans-serif;color:var(--ac-ink)"></span><span data-t="po.freeP"></span></div>
+        <ul><li id="poFree1"></li><li><svg viewBox="0 0 24 24" fill="none" stroke="var(--ac-muted)" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg><span data-t="po.free2"></span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="var(--ac-muted)" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg><span data-t="po.free3"></span></li></ul></div>
+      <div class="ac-tier hero"><div class="k">AirConsole Hero<span data-t="po.heroP"></span></div>
+        <ul><li id="poHero1"></li><li><svg viewBox="0 0 24 24" fill="none" stroke="var(--ac-green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-t="po.hero2"></span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="var(--ac-green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-t="po.hero3"></span></li></ul></div>
+    </div>
+    <div class="ac-proof"><span class="st">★★★★★</span><span data-th="proof"></span></div>
+    <div style="height:8px"></div>
+  </div>
+  <div class="scr-foot">
+    <button class="ac-btn" data-go="paywall" data-t="po.cta"></button>
+    <button class="ac-ghost" data-go="code" data-t="po.ghost"></button>
+  </div>
+</section>
+
+<!-- PAYWALL -->
+<section class="scr scr--pay" data-id="paywall">
+  <div class="scr-top">
+    <button class="ac-x" id="payClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M19 5 5 19M5 5l14 14"/></svg></button>
+    <h2 class="ac-payh" id="payH"></h2>
+    <p class="ac-paysub" id="paySub"></p>
+  </div>
+  <div class="scr-body">
+    <div class="ac-feats" id="featList"></div>
+    <div class="ac-proof" style="margin-top:14px"><span class="st">★★★★★</span><span data-th="proof"></span></div>
+    <div class="ac-plans" id="planList">
+      <div class="ac-pgroup">
+        <div class="ac-phead"><span style="color:var(--ac-muted);font-weight:700" data-t="pw.off"></span><span data-t="pw.vs"></span></div>
+        <button class="ac-plan yr" data-v="year"><span><span class="n" data-t="pw.yr"></span><span class="d" data-t="pw.yrD"></span></span><span class="pr"><b>$ 1.49</b><span data-t="pw.pm"></span></span></button>
+      </div>
+      <button class="ac-plan mon" data-v="month"><span><span class="n" data-t="pw.mo"></span><span class="d" data-t="pw.moD"></span></span><span class="pr"><b>$ 4.99</b><span data-t="pw.pm"></span></span></button>
+    </div>
+    <div style="height:8px"></div>
+  </div>
+  <div class="scr-foot" style="padding-top:8px">
+    <button class="ac-btn" id="payCta" style="width:74%" data-t="pw.cta"></button>
+    <p class="ac-legal"><span data-t="pw.legal"></span> <a data-t="pw.terms"></a> · <a class="r" data-t="pw.restore"></a></p>
+  </div>
+</section>
+
+<!-- OFFER -->
+<section class="scr scr--offer sheet" data-id="offer">
+  <div class="scr-top" style="padding-top:0">
+    <button class="ac-x" id="offClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M19 5 5 19M5 5l14 14"/></svg></button>
+    <h2 class="ac-oh" data-t="of.h"></h2>
+    <p class="ac-osub" data-t="of.sub"></p>
+  </div>
+  <div class="scr-body">
+    <div class="ac-ocard">
+      <span class="tag" data-t="of.tag"></span>
+      <div class="nm">AirConsole Hero for lifetime</div>
+      <div class="big">$29.99</div>
+      <div class="once" data-t="of.once"></div>
+      <div class="ac-orows" id="offRows"></div>
+    </div>
+    <div style="height:8px"></div>
+  </div>
+  <div class="scr-foot">
+    <button class="ac-btn" id="offerCta" style="width:74%" data-t="of.cta"></button>
+    <p class="ac-legal"><a class="r" data-t="pw.restore"></a></p>
+  </div>
+</section>
+
+<!-- CODE + TRACKING PROMPT -->
+<section class="scr" data-id="code">
+  <div class="scr-top">
+    <button class="ac-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg></button>
+    <h2 class="ac-h" style="margin-top:24px" data-t="cd.h"></h2>
+    <p class="ac-sub" id="codeSub"></p>
+  </div>
+  <div class="scr-body">
+    <div class="ac-code"><i class="cur"></i><i></i><i></i><i></i><i></i></div>
+  </div>
+  <div class="scr-foot"><button class="ac-btn" data-t="cd.cta"></button></div>
+  <div class="ac-att gone" id="att">
+    <div class="ac-attbox">
+      <div class="ac-attico"></div>
+      <h4 data-t="att.h"></h4>
+      <p data-t="att.p"></p>
+      <button data-att data-t="att.no"></button>
+      <button data-att data-t="att.ok"></button>
+    </div>
+  </div>
+</section>
+
+        </div>
+      </div>
+    </div>
+    <div class="demo-cap hidden" id="demoCap"><div class="bar"><i id="demoProg"></i></div><p id="demoTxt"></p><button id="demoStop">Stop</button></div>
+    <div class="chips" id="chips"></div>
+    <p class="chiphint">Jump to any screen — answers already filled in.</p>
+    <div class="qr"><img src="img/qr.svg" alt="QR code for this prototype"><span><b>Open it on your phone</b>Scan to try the flow in your hand.</span></div>
+  </div>
+  <div class="panelcol"><div class="pn" id="panel"></div></div>
+</div>
+</div><!-- /view-proto -->
+
+<script>
+/* ================= copy, per language (phone screens only) ================= */
+var LANGS = ['en','de','fr'];
+var T = {
+ 'w.t1':   ["Instantly play games together","Sofort zusammen spielen","Jouez ensemble, tout de suite"],
+ 'w.s1':   ["Play with your phones on your PC, Car or TV!","Spielt mit euren Handys am PC, im Auto oder am TV!","Jouez avec vos téléphones sur PC, en voiture ou sur la TV !"],
+ 'w.c2':   ["Top reasons to get AirConsole Hero","Die besten Gründe für AirConsole Hero","Les meilleures raisons de prendre AirConsole Hero"],
+ 'w.c3':   ["Team Up, Game On: Why Multiplayer Rules! 🎮","Team bilden, losspielen: Multiplayer rockt! 🎮","En équipe : le multijoueur, c’est le top ! 🎮"],
+ 'w.guest':["Continue as Guest","Als Gast fortfahren","Continuer en invité"],
+ 'w.apple':["Continue with Apple","Mit Apple fortfahren","Continuer avec Apple"],
+ 'w.help': ["Start for free, get full access later.","Kostenlos starten, später alles freischalten.","Commencez gratuitement, débloquez tout plus tard."],
+ 'sc.h':   ["On what screen do you<br>want to play?","Auf welchem Bildschirm<br>willst du spielen?","Sur quel écran<br>veux-tu jouer ?"],
+ 'sc.sub': ["Your phones are the controllers.<br>Let’s connect them to a screen.","Eure Handys sind die Controller.<br>Verbinden wir sie mit einem Bildschirm.","Vos téléphones sont les manettes.<br>Connectons-les à un écran."],
+ 'sc.ready':["Ready in 1 minute.","In 1 Minute startklar.","Prêt en 1 minute."],
+ 's.car':  ["Car","Auto","Voiture"],
+ 'pl.h':   ["How many of you<br>are playing?","Wie viele von euch<br>spielen mit?","Combien êtes-vous<br>à jouer ?"],
+ 'pl.sub': ["One phone per player.","Ein Handy pro Spieler.","Un téléphone par joueur."],
+ 'pl.o':   [["Just me","2 of us","3 of us","4 of us","5 or more"],["Nur ich","Zu zweit","Zu dritt","Zu viert","5 oder mehr"],["Juste moi","À 2","À 3","À 4","5 ou plus"]],
+ 'cn.h':   ["Connect to your {s}","Mit deinem {s} verbinden","Connecte-toi à ta {s}"],
+ 'cn.hpc': ["Connect to your PC","Mit deinem PC verbinden","Connecte-toi à ton PC"],
+ 'wifi':   ["Connect all the devices to the same WiFi","Verbinde alle Geräte mit demselben WLAN","Connecte tous les appareils au même Wi-Fi"],
+ 'pc2':    ["Open airconsole.com on your PC.<br>Recommended:","Öffne airconsole.com auf deinem PC.<br>Empfohlen:","Ouvre airconsole.com sur ton PC.<br>Recommandé :"],
+ 'pc3':    ["Click on “Start playing now” to get the connect code","Klicke auf „Start playing now“, um den Verbindungscode zu erhalten","Clique sur « Start playing now » pour obtenir le code"],
+ 'tv2':    ["Open the AirConsole app on your TV","Öffne die AirConsole-App auf deinem TV","Ouvre l’app AirConsole sur ta TV"],
+ 'tv3':    ["Select “Start playing now” to get the connect code","Wähle „Start playing now“, um den Verbindungscode zu erhalten","Sélectionne « Start playing now » pour obtenir le code"],
+ 'car1':   ["Park, then open AirConsole on your car’s screen","Parken, dann AirConsole auf dem Auto-Display öffnen","Gare-toi, puis ouvre AirConsole sur l’écran de ta voiture"],
+ 'car2':   ["Start a game to get the connect code","Starte ein Spiel, um den Verbindungscode zu erhalten","Lance un jeu pour obtenir le code"],
+ 'car3':   ["Everyone scans in with their own phone","Alle verbinden sich mit ihrem eigenen Handy","Chacun se connecte avec son téléphone"],
+ 'cn.cta': ["I've got the connect code","Ich habe den Code","J’ai le code"],
+ 'po.h1':  ["Your solo game night is set","Dein Spieleabend ist startklar","Ta soirée jeux est prête"],
+ 'po.hn':  ["Game night for {n} is set","Spieleabend für {n} ist startklar","Soirée jeux à {n}, c’est prêt"],
+ 'po.free':["Starter Pack","Starter Pack","Starter Pack"],
+ 'po.freeP':["Free","Gratis","Gratuit"],
+ 'po.heroP':["from $1.49 / month","ab $1.49 / Monat","dès $1.49 / mois"],
+ 'po.f1ok':["Up to 2 players","Bis zu 2 Spieler","Jusqu’à 2 joueurs"],
+ 'po.f1no':["Only 2 of your {n} can play","Nur 2 von {n} können mitspielen","Seuls 2 sur {n} peuvent jouer"],
+ 'po.free2':["A selection of free games","Eine Auswahl an Gratis-Spielen","Une sélection de jeux gratuits"],
+ 'po.free3':["With ads","Mit Werbung","Avec publicités"],
+ 'po.h1ok':["Unlimited players","Unbegrenzt viele Spieler","Joueurs illimités"],
+ 'po.h1n': ["All {n} of you play","Alle {n} spielen mit","Vous jouez tous les {n}"],
+ 'po.hero2':["170+ multiplayer games","170+ Multiplayer-Spiele","170+ jeux multijoueurs"],
+ 'po.hero3':["No ad breaks","Keine Werbepausen","Sans pubs"],
+ 'po.cta': ["See AirConsole Hero","AirConsole Hero ansehen","Voir AirConsole Hero"],
+ 'po.ghost':["Start with the Starter Pack","Mit dem Starter Pack starten","Commencer avec le Starter Pack"],
+ 'proof':  ["<b>4.7</b> · 5.1K ratings on the App Store","<b>4.7</b> · 5.1K Bewertungen im App Store","<b>4.7</b> · 5.1K notes sur l’App Store"],
+ 'pw.h':   ["Unlock AirConsole Hero","AirConsole Hero freischalten","Débloque AirConsole Hero"],
+ 'pw.s1':  ["for your {s}","für deinen {s}","pour ta {s}"],
+ 'pw.s2':  ["for both of you on your {s}","für euch beide am {s}","pour vous deux sur ta {s}"],
+ 'pw.sn':  ["for all {n} of you on your {s}","für alle {n} am {s}","pour vous {n} sur ta {s}"],
+ 'f.games':["Unlock all games","Alle Spiele freischalten","Tous les jeux débloqués"],
+ 'f.ads':  ["No ad breaks","Keine Werbepausen","Sans pubs"],
+ 'f.pl':   ["Unlimited Players","Unbegrenzt viele Spieler","Joueurs illimités"],
+ 'pw.off': ["70% OFF","70% RABATT","−70 %"],
+ 'pw.vs':  ["vs. monthly","ggü. monatlich","vs. mensuel"],
+ 'pw.yr':  ["Annual Subscription","Jahresabo","Abonnement annuel"],
+ 'pw.yrD': ["Pay $ 17.99 per year","$ 17.99 pro Jahr","$ 17.99 par an"],
+ 'pw.mo':  ["Monthly Subscription","Monatsabo","Abonnement mensuel"],
+ 'pw.moD': ["Pay $ 4.99 per month","$ 4.99 pro Monat","$ 4.99 par mois"],
+ 'pw.pm':  ["per month","pro Monat","par mois"],
+ 'pw.cta': ["Buy subscription now","Jetzt abonnieren","S’abonner maintenant"],
+ 'pw.legal':["Auto-renewing 24h before subscriptions end. Active subscription period will not be refunded. Cancel in the account settings.","Verlängert sich 24 h vor Ablauf automatisch. Laufende Abozeit wird nicht erstattet. Kündigung in den Kontoeinstellungen.","Renouvellement auto 24 h avant la fin. La période en cours n’est pas remboursée. Résiliation dans les réglages du compte."],
+ 'pw.terms':["Terms of Use","Nutzungsbedingungen","Conditions d’utilisation"],
+ 'pw.restore':["Restore previous purchase","Kauf wiederherstellen","Restaurer un achat"],
+ 'of.h':   ["Not ready to subscribe?","Noch kein Abo?","Pas prêt pour un abonnement ?"],
+ 'of.sub': ["Pay once and keep Hero for good.","Einmal zahlen, Hero für immer behalten.","Paie une fois, garde Hero pour toujours."],
+ 'of.tag': ["One-time purchase","Einmalkauf","Achat unique"],
+ 'of.once':["once · no renewals","einmalig · keine Verlängerung","une fois · sans renouvellement"],
+ 'of.r1':  ["Every Hero perk, for good","Alle Hero-Vorteile, für immer","Tous les avantages Hero, pour toujours"],
+ 'of.r2':  ["All {n} of you play","Alle {n} spielen mit","Vous jouez tous les {n}"],
+ 'of.r2b': ["Unlimited players","Unbegrenzt viele Spieler","Joueurs illimités"],
+ 'of.r3':  ["Less than 2 years of annual ($35.98)","Weniger als 2 Jahre Jahresabo ($35.98)","Moins que 2 ans d’annuel ($35.98)"],
+ 'of.cta': ["Get lifetime access","Lebenslang freischalten","Accès à vie"],
+ 'cd.h':   ["Enter the connect code","Verbindungscode eingeben","Saisis le code"],
+ 'cd.sub': ["It’s on your {s} now.","Er steht jetzt auf deinem {s}.","Il s’affiche sur ta {s}."],
+ 'cd.cta': ["Connect","Verbinden","Connecter"],
+ 'att.h':  ["Allow “AirConsole” to track your activity across other companies’ apps and websites?","„AirConsole“ erlauben, deine Aktivitäten in Apps und auf Websites anderer Firmen zu verfolgen?","Autoriser « AirConsole » à suivre votre activité dans les apps et sites web d’autres sociétés ?"],
+ 'att.p':  ["Using data to evaluate user behavior, including to understand the effectiveness of existing product features, plan new features, or measure audience size or characteristics","Daten zur Auswertung des Nutzerverhaltens, etwa um bestehende Funktionen zu bewerten, neue zu planen oder die Zielgruppe zu messen","Données utilisées pour évaluer le comportement des utilisateurs, comprendre l’efficacité des fonctionnalités, en planifier de nouvelles ou mesurer l’audience"],
+ 'att.no': ["Ask App Not to Track","App bitten, nicht zu tracken","Demander à l’app de ne pas suivre"],
+ 'att.ok': ["Allow","Erlauben","Autoriser"]
+};
+/* the screen they pick, with the article each language needs */
+var SCRN = {
+  pc: {nm:['PC','PC','PC'],   your:['PC','PC','PC']},
+  car:{nm:['car','Auto','voiture'], your:['car','Auto','voiture']},
+  tv: {nm:['TV','TV','TV'],   your:['TV','TV','TV']}
+};
+/* fr uses "ton PC" vs "ta TV/voiture"; de uses "deinem PC/Auto/TV" (dative); keep the template simple */
+var FR_M = {pc:true};
+
+/* ================= state ================= */
+function defaults(){ return { lang:S0.lang, theme:S0.theme, screen:'tv', players:4, plan:'year', slide:0 }; }
+var S0 = {lang:'en', theme:'dark'};
+var S = defaults();
+function L(){ return LANGS.indexOf(S.lang); }
+function t(k,v){ var s=(T[k]||[k])[L()]; if(v) Object.keys(v).forEach(function(x){ s=s.split('{'+x+'}').join(v[x]); }); return s; }
+function sName(){ return SCRN[S.screen].nm[L()]; }
+function nStr(){ return S.players>=5 ? '5+' : String(S.players); }
+function frArt(s){ /* "ta {s}" -> "ton PC" */ return s; }
+
+/* ================= builders ================= */
+var CK='<svg viewBox="0 0 30 24" fill="none" stroke="var(--ac-green)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5 11 20 27 4"/></svg>';
+var CKs='<svg viewBox="0 0 24 24" fill="none" stroke="var(--ac-green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+var WARN='<svg viewBox="0 0 24 24" fill="none" stroke="var(--ac-warn)" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.1"/></svg>';
+function pads(n){ var h=''; for(var i=0;i<Math.min(n,4);i++) h+='<span class="ac-pad"></span>'; if(n>=5) h+='<span class="ac-pad more">+</span>'; return h; }
+function buildPlayers(){ var g=document.getElementById('playerOpts'); g.innerHTML='';
+  t('pl.o').forEach(function(lab,i){ var b=document.createElement('button'); b.className='ac-out'; b.dataset.v=i+1; b.textContent=lab;
+    b.addEventListener('click',function(){ S.players=i+1; syncScreen(); setTimeout(function(){ if(cur==='players') go('connect'); },demo.on?120:220); });
+    g.appendChild(b); }); }
+function applyStatic(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll('[data-t]').forEach(function(el){ el.textContent=t(el.dataset.t); });
+  document.querySelectorAll('[data-th]').forEach(function(el){ el.innerHTML=t(el.dataset.th); });
+  buildPlayers();
+}
+function connTitle(){
+  if(S.screen==='pc') return t('cn.hpc');
+  return t('cn.h',{s:sName()});
+}
+function onYour(k){ /* "for your TV" / "für deinen TV" / "pour ta TV" */
+  var s=sName();
+  if(S.lang==='fr' && FR_M[S.screen]) return t(k,{n:nStr(),s:s}).replace('ta '+s,'ton '+s);
+  if(S.lang==='de' && S.screen==='car') return t(k,{n:nStr(),s:s}).replace('deinen '+s,'dein '+s).replace('am '+s,'im '+s);
+  return t(k,{n:nStr(),s:s});
+}
+
+/* ================= everything downstream reads S ================= */
+function syncScreen(){
+  var n=S.players, ns=nStr();
+  document.querySelectorAll('#screenOpts .ac-out').forEach(function(b){ b.classList.toggle('on', b.dataset.v===S.screen); });
+  document.querySelectorAll('#playerOpts .ac-out').forEach(function(b){ b.classList.toggle('on', +b.dataset.v===n); });
+  document.getElementById('padsQ').innerHTML=pads(n);
+  document.getElementById('padsP').innerHTML=pads(n);
+  /* connect: their instructions, for the screen they picked */
+  document.getElementById('connH').textContent=connTitle();
+  var im=document.getElementById('connImg'), ill=document.getElementById('connIll');
+  im.src = S.screen==='pc' ? 'img/pc.png' : 'img/screens.png'; ill.classList.toggle('alt', S.screen!=='pc');
+  var steps = S.screen==='pc' ? [t('wifi'), t('pc2')+'<br><span class="ac-chromechip"><img src="img/chrome.png" alt="">Google Chrome</span>', t('pc3')]
+            : S.screen==='tv' ? [t('wifi'), t('tv2'), t('tv3')] : [t('car1'), t('car2'), t('car3')];
+  document.getElementById('connSteps').innerHTML=steps.map(function(s,i){ return '<div class="ac-step"><b>'+(i+1)+'</b><p>'+s+'</p></div>'; }).join('');
+  /* payoff: their group against the 2-player Starter Pack */
+  document.getElementById('poH').textContent = n===1 ? t('po.h1') : t('po.hn',{n:ns});
+  document.getElementById('poFree1').innerHTML = n>2 ? WARN+'<span>'+t('po.f1no',{n:ns})+'</span>' : '<svg viewBox="0 0 24 24" fill="none" stroke="var(--ac-muted)" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg><span>'+t('po.f1ok')+'</span>';
+  document.getElementById('poFree1').className = n>2 ? 'warn' : '';
+  document.getElementById('poHero1').innerHTML = CKs+'<span>'+(n>2 ? t('po.h1n',{n:ns}) : t('po.h1ok'))+'</span>';
+  /* paywall: their group, their screen */
+  document.getElementById('payH').textContent=t('pw.h');
+  document.getElementById('paySub').textContent = n===1 ? onYour('pw.s1') : (n===2 ? onYour('pw.s2') : onYour('pw.sn'));
+  var feats = n>2 ? ['f.pl','f.games','f.ads'] : ['f.games','f.ads','f.pl'];
+  document.getElementById('featList').innerHTML=feats.map(function(k){ return '<div class="ac-f">'+CK+'<span>'+t(k)+'</span></div>'; }).join('');
+  document.querySelectorAll('#planList .ac-plan').forEach(function(b){ b.classList.toggle('on', b.dataset.v===S.plan); });
+  document.getElementById('offRows').innerHTML=[t('of.r1'), n>2 ? t('of.r2',{n:ns}) : t('of.r2b'), t('of.r3')].map(function(s){ return '<div>'+CK+'<span>'+s+'</span></div>'; }).join('');
+  document.getElementById('codeSub').textContent=onYourCode();
+}
+function onYourCode(){ var s=sName(), r=t('cd.sub',{s:s});
+  if(S.lang==='fr' && FR_M[S.screen]) r=r.replace('ta '+s,'ton '+s);
+  if(S.lang==='de' && S.screen==='car') r=r.replace('deinem '+s,'deinem '+s);
+  return r; }
+
+/* ================= carousel ================= */
+var car=document.getElementById('car');
+function paintDots(i){ document.querySelectorAll('#dots i').forEach(function(d,k){ d.classList.toggle('on',k===i); }); }
+car.addEventListener('scroll',function(){ var i=Math.round(car.scrollLeft/car.clientWidth); if(i!==S.slide){ S.slide=i; paintDots(i); } });
+document.querySelectorAll('#dots i').forEach(function(d,k){ d.style.cursor='pointer'; d.addEventListener('click',function(){ car.scrollTo({left:k*car.clientWidth,behavior:'smooth'}); }); });
+
+/* ================= router ================= */
+var BASE=['welcome','screen','players','connect','payoff','paywall','offer','code'];
+function ORDER(){ return BASE; }
+var LABEL={welcome:'Welcome',screen:'Screen',players:'Players',connect:'Connect',payoff:'Game night',paywall:'Paywall',offer:'Offer on close',code:'Code + tracking'};
+var scr={}, hist=[], cur='welcome', attTimer=null;
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id]=s; });
+
+function chrome(){ var light=S.theme==='light';
+  document.getElementById('sbar').classList.toggle('dk',light); document.getElementById('homebar').classList.toggle('dk',light); }
+function enter(id){ chrome(); paintChips(); paintPanel(); clearTimeout(attTimer);
+  var att=document.getElementById('att');
+  if(id==='code'){ att.classList.add('gone'); attTimer=setTimeout(function(){ att.classList.remove('gone'); },demo.on?350:550); } else att.classList.add('gone'); }
+function go(id,opts){
+  opts=opts||{}; if(id===cur) return;
+  var from=scr[cur], to=scr[id];
+  if(!opts.back) hist.push(cur);
+  if(from){ from.classList.remove('is-active');
+    if(!to.classList.contains('sheet') && !from.classList.contains('sheet')) from.classList.add('is-past'); }
+  Object.keys(scr).forEach(function(k){ if(k!==id&&k!==cur) scr[k].classList.remove('is-active'); });
+  if(to.classList.contains('sheet')) scr.paywall.classList.add('is-active');
+  to.classList.remove('is-past'); to.classList.add('is-active');
+  cur=id; enter(id);
+}
+function back(){
+  if(!hist.length) return;
+  var prev=hist.pop();
+  scr[cur].classList.remove('is-active');
+  scr[prev].classList.remove('is-past'); scr[prev].classList.add('is-active');
+  cur=prev; enter(prev);
+}
+function jump(id){
+  var o=ORDER(), i=o.indexOf(id);
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active','is-past'); });
+  hist=o.slice(0,i<0?0:i);
+  if(id==='offer') { scr.paywall.classList.add('is-active'); hist=o.slice(0,o.indexOf('paywall')+1); }
+  if(id==='code') hist=o.slice(0,o.indexOf('payoff')+1);
+  scr[id].classList.add('is-active'); cur=id;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+    Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+  syncScreen(); enter(id);
+}
+var chipKey='';
+function paintChips(){
+  var c=document.getElementById('chips'), o=ORDER();
+  if(chipKey!==o.join()){ chipKey=o.join(); c.innerHTML='';
+    o.forEach(function(id){
+      var b=document.createElement('button'); b.className='chip'+(id==='offer'?' offer':''); b.textContent=LABEL[id];
+      b.dataset.id=id; b.onclick=function(){ stopDemo(); jump(id); }; c.appendChild(b);
+    });
+  }
+  c.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on', b.dataset.id===cur); });
+}
+
+/* ================= wiring ================= */
+document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ if(!b.disabled) go(b.dataset.go); }); });
+document.querySelectorAll('[data-back]').forEach(function(b){ b.addEventListener('click',back); });
+document.querySelectorAll('#screenOpts .ac-out').forEach(function(b){ b.addEventListener('click',function(){ S.screen=b.dataset.v; syncScreen(); setTimeout(function(){ if(cur==='screen') go('players'); },demo.on?120:220); }); });
+document.querySelectorAll('#planList .ac-plan').forEach(function(b){ b.addEventListener('click',function(){ S.plan=b.dataset.v; syncScreen(); }); });
+document.getElementById('payClose').addEventListener('click',function(){ go('offer'); });
+document.getElementById('offClose').addEventListener('click',function(){ go('code'); });
+document.getElementById('payCta').addEventListener('click',function(){ go('code'); });
+document.getElementById('offerCta').addEventListener('click',function(){ go('code'); });
+document.querySelectorAll('[data-att]').forEach(function(b){ b.addEventListener('click',function(){ document.getElementById('att').classList.add('gone'); }); });
+
+function setSeg(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(function(b){ b.classList.toggle('on', b.dataset[attr]===val); }); }
+function setLang(l){ S.lang=l; S0.lang=l; setSeg('segLang','lang',l); applyStatic(); syncScreen(); paintPanel(); }
+function setTheme(th){ S.theme=th; S0.theme=th; document.getElementById('phoneIn').classList.toggle('light',th==='light'); setSeg('segTheme','theme',th); chrome(); }
+document.querySelectorAll('#segLang button').forEach(function(b){ b.addEventListener('click',function(){ stopDemo(); setLang(b.dataset.lang); }); });
+document.querySelectorAll('#segTheme button').forEach(function(b){ b.addEventListener('click',function(){ setTheme(b.dataset.theme); }); });
+
+/* ================= the 30-second walkthrough ================= */
+var demo={tok:0,on:false,t0:0,iv:null}, finger=document.getElementById('finger'), phoneIn=document.getElementById('phoneIn');
+function W(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+function cap(txt){ document.getElementById('demoTxt').textContent=txt; }
+async function tap(sel,tok){
+  if(demo.tok!==tok) throw 0;
+  var el=document.querySelector(sel); if(!el) return;
+  var r=el.getBoundingClientRect(), p=phoneIn.getBoundingClientRect(), z=p.width/phoneIn.offsetWidth||1;
+  finger.style.left=((r.left-p.left+r.width/2)/z)+'px'; finger.style.top=((r.top-p.top+r.height/2)/z)+'px';
+  finger.classList.add('show'); await W(380); if(demo.tok!==tok) throw 0;
+  finger.classList.add('press'); await W(120); finger.classList.remove('press'); el.click(); await W(160);
+  if(demo.tok!==tok) throw 0;
+}
+async function pause(ms,tok){ await W(ms); if(demo.tok!==tok) throw 0; }
+function startDemo(){
+  stopDemo(); var tok=++demo.tok; demo.on=true; demo.t0=Date.now();
+  var keep={lang:S.lang,theme:S.theme}; S=defaults(); S.lang=keep.lang; S.theme=keep.theme; S.players=2; S.screen='pc';
+  applyStatic(); car.scrollLeft=0; paintDots(0); jump('welcome');
+  document.getElementById('demoCap').classList.remove('hidden');
+  demo.iv=setInterval(function(){ document.getElementById('demoProg').style.width=Math.min(100,(Date.now()-demo.t0)/215)+'%'; },200);
+  (async function(){
+    try{
+      cap('A new install opens on your carousel — no tracking prompt on top.'); await pause(900,tok);
+      car.scrollTo({left:car.clientWidth,behavior:'smooth'}); await pause(650,tok); S.slide=1; paintDots(1);
+      await pause(500,tok);
+      await tap('#guestBtn',tok);
+      cap('Your own question: which screen. Say, the TV.'); await pause(700,tok);
+      await tap('#screenOpts [data-v=tv]',tok); await pause(450,tok);
+      cap('One new question: how many are playing.'); await pause(700,tok);
+      await tap('#playerOpts [data-v="4"]',tok); await pause(450,tok);
+      cap('Your connect steps, now for the TV they picked.'); await pause(1500,tok);
+      await tap('[data-id=connect] .ac-btn',tok);
+      cap('Instead of “You are missing out!”: free stops at 2 players, Hero takes all 4.'); await pause(2900,tok);
+      await tap('[data-id=payoff] .ac-btn',tok);
+      cap('The paywall names their group and screen, shows your 4.7 and starts on annual.'); await pause(2000,tok);
+      await tap('#planList [data-v=month]',tok); await pause(600,tok); await tap('#planList [data-v=year]',tok); await pause(500,tok);
+      cap('They close it. One offer: your $29.99 lifetime Hero.'); await tap('#payClose',tok); await pause(2400,tok);
+      cap('That is the flow. Tracking is asked next, on the connect-code step — after the paywall.');
+      finger.classList.remove('show'); await pause(2600,tok); stopDemo();
+    }catch(e){}
+  })();
+}
+function stopDemo(){ if(!demo.on) return; demo.tok++; demo.on=false; clearInterval(demo.iv); finger.classList.remove('show','press');
+  document.getElementById('demoCap').classList.add('hidden'); }
+document.getElementById('demoBtn').addEventListener('click',startDemo);
+document.getElementById('demoStop').addEventListener('click',stopDemo);
+phoneIn.addEventListener('pointerdown',function(e){ if(e.isTrusted && demo.on) stopDemo(); });
+</script>
+<script>
+/* ---- the short panel: hypothesis + potential outcome, nothing else ---- */
+var PANEL = {
+welcome:{n:4,t:'Ask for tracking after the paywall',
+ hyp:'Try opening on your carousel with nothing on top of it, <b>because today the “Allow AirConsole to track your activity” prompt covers this screen before anyone has seen a game</b>. The prompt moves to the connect step, after the paywall.',
+ kept:'Your carousel untouched — the three slides, the blue pager dots, Continue as Guest, Continue with Apple and “Start for free, get full access later.”',
+ out:'CR +10–15%'},
+screen:{ctx:true,t:'On what screen do you want to play?',
+ kept:'Untouched — your phone + screen = controllers illustration, your copy, “Ready in 1 minute.” and the green outline PC / Car / TV pills. The answer is now used on the next four screens.'},
+players:{n:1,t:'Show their game night before the price',
+ hyp:'Try asking how many are playing, <b>because your free Starter Pack stops at 2 players — so this one answer tells you, and them, whether Hero is the only way the whole group plays</b>. It is one tap on your own outline pills.',
+ kept:'Your outline pills, your illustration card and your blue controller glyphs, which now count the players they pick.',
+ out:'CR +10–20%'},
+connect:{ctx:true,t:'Connect to your screen',
+ kept:'Your connect screen — the illustration, the big step numbers, the Chrome chip and “I’ve got the connect code”. It now titles itself with the screen they picked.'},
+payoff:{n:1,t:'Show their game night before the price',
+ hyp:'Try this screen in place of “You are missing out!”, <b>because it turns a warning into their own numbers: pick 4 players and the Starter Pack row says only 2 of them can play</b>. Every line is from your App Store listing.',
+ kept:'Your dark surfaces, green checks, outline green and pill button. Go back to Players and pick 2 — the warning goes away and the paywall changes too.',
+ out:'CR +10–20%'},
+paywall:{n:2,t:'Name their group on the paywall',
+ hyp:'Try keeping your headline and adding their group and screen under it, leading with Unlimited Players and showing your 4.7 from 5.1K ratings, <b>because today the same paywall speaks to a solo player and a family of five, and your rating appears nowhere in the flow</b>.',
+ hyp2:'Try starting with the annual plan selected, <b>because your 70% OFF label sits on the annual plan while the white border sits on monthly</b>. Same two prices, $17.99 a year and $4.99 a month.',
+ n2:5, out2:'ARPU +3–8%',
+ kept:'Your X, your checkmark list, your plan group with the 70% OFF row, the $ 1.49 / $ 4.99 cards with the white selected border, your gradient “Buy subscription now” and your legal footer. The countdown is replaced by “vs. monthly”, which is what the 70% compares against.',
+ out:'CR +15–20%'},
+offer:{n:3,t:'Offer lifetime when they close',
+ hyp:'Try your $29.99 lifetime Hero as the one second chance, <b>because it already exists on the App Store and answers a different worry — a recurring bill — instead of repeating the same plans</b>. Nothing here is a new price.',
+ kept:'Your X, your type, your white selected border and your green gradient button. The “less than 2 years” line is your own $17.99 × 2.',
+ out:'ARPU +10–15%'},
+code:{n:4,t:'Ask for tracking after the paywall',
+ hyp:'Try showing the tracking prompt here, while they type the code, <b>because by now they have chosen a screen, a group and a plan, and the request no longer arrives before the app has done anything</b>.',
+ kept:'Your exact tracking copy, moved from the welcome screen to this step.',
+ out:'CR +10–15%'}
+};
+
+function outBlock(lab,val){
+  return '<div class="pn-out"><div class="lab">'+lab+'</div><div class="v">'+val+'</div></div>';
+}
+function paintPanel(){
+  var d=PANEL[cur]; if(!d) return;
+  var h='';
+  if(d.ctx){
+    h += '<div class="pn-n ctx">Context · no change proposed</div><h3 class="pn-t">'+d.t+'</h3>'
+       + '<div class="pn-kept">'+d.kept+'</div>';
+  } else {
+    h += '<div class="pn-n">Idea '+d.n+' of 5</div><h3 class="pn-t">'+d.t+'</h3>'
+       + '<p class="pn-hyp">'+d.hyp+'</p>'
+       + outBlock('Potential outcome · based on Adapty data', d.out);
+    if(d.hyp2){
+      h += '<div class="pn-sep"></div>'
+         + '<div class="pn-n">Idea '+d.n2+' of 5</div>'
+         + '<p class="pn-hyp" style="margin-top:12px">'+d.hyp2+'</p>'
+         + outBlock('Potential outcome · based on Adapty data', d.out2);
+    }
+    h += '<div class="pn-kept"><b>Your design, unchanged.</b> '+d.kept+'</div>';
+  }
+  if(S.lang!=='en') h += '<div class="pn-kept"><b>Language.</b> Screens are shown in '+(S.lang==='de'?'German':'French')+' to show one flow serving every market. Translated by us; store prices stay as published in US dollars.</div>';
+  h += '<div class="pn-foot">Ranges are Adapty’s expected effect from tests across 30,000+ subscription apps — not measured lift for AirConsole. '
+     + 'Prices, ratings and feature lines come from your own published material.</div>';
+  document.getElementById('panel').innerHTML = h;
+}
+
+/* ---- views, jumps from the overview ---- */
+function showView(v){
+  if(v!=='proto') stopDemo();
+  document.querySelectorAll('.view').forEach(function(x){ x.classList.remove('on'); });
+  document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.nav-links button[data-view]').forEach(function(b){ b.classList.toggle('on', b.dataset.view===v); });
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ showView(b.dataset.view); }); });
+document.querySelectorAll('.idea[data-jump]').forEach(function(b){
+  b.addEventListener('click',function(){ showView('proto'); jump(b.dataset.jump); });
+});
+document.querySelectorAll('[data-demo]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); startDemo(); }); });
+
+applyStatic();
+scr.welcome.classList.add('is-active');
+syncScreen(); chrome(); paintChips(); paintPanel();
+if(/[?&]open=proto/.test(location.search)) showView('proto');
+</script>
+</body>
+</html>
